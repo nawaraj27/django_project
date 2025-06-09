@@ -1,0 +1,46 @@
+{% extends "base.html" %} 
+{% block title %}login{% endblock title %}
+{% block content %}
+
+<div class="card bg-light p-5">
+  {% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      <li class="{{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+  <h2 class="text-dark">login</h2>
+
+  <form action="/auth/login/" method="post">
+    {% csrf_token %}
+
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input
+        type="email"
+        class="form-control p-2"
+        id="email"
+        name="email"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="pass1">Password</label>
+      <input
+        type="password"
+        class="form-control p-2"
+        id="pass1"
+        name="pass1"
+        required
+      />
+    </div>
+    
+    <button type="submit" class="btn btn-dark">login</button>
+
+    <p>New user <a href="/auth/signup/">signup</a></p> {# Changed /auth/signin/ to /auth/signup/ as per your urls.py #}
+  </form>
+
+</div> {# This div closing tag should be inside the block content and before endblock content #}
+{% endblock content %}
