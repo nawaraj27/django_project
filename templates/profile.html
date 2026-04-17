@@ -1,0 +1,172 @@
+{% extends "base.html" %}
+{% block title %}My Profile{% endblock title %}
+
+{% block content %}
+<style>
+  .profile-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+    padding: 40px 20px;
+  }
+  
+  .profile-card {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .profile-header {
+    text-align: center;
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #e3f2fd;
+  }
+  
+  .profile-header h2 {
+    color: #1976d2;
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+  
+  .profile-header p {
+    color: #666;
+    font-size: 1.1rem;
+  }
+  
+  .profile-section {
+    margin-bottom: 30px;
+  }
+  
+  .profile-section h3 {
+    color: #333;
+    margin-bottom: 20px;
+    font-weight: 600;
+    border-left: 4px solid #1976d2;
+    padding-left: 15px;
+  }
+  
+  .info-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+  
+  .info-label {
+    font-weight: 600;
+    color: #333;
+  }
+  
+  .info-value {
+    color: #666;
+  }
+  
+  .order-item {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 15px;
+    border-left: 4px solid #28a745;
+  }
+  
+  .order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+  .order-id {
+    font-weight: 600;
+    color: #1976d2;
+  }
+  
+  .order-date {
+    color: #666;
+    font-size: 0.9rem;
+  }
+  
+  .order-amount {
+    font-weight: 600;
+    color: #28a745;
+    font-size: 1.1rem;
+  }
+  
+  .no-orders {
+    text-align: center;
+    padding: 40px;
+    color: #666;
+  }
+  
+  .no-orders i {
+    font-size: 3rem;
+    color: #ddd;
+    margin-bottom: 20px;
+  }
+</style>
+
+<div class="profile-container">
+  <div class="profile-card">
+    <div class="profile-header">
+      <h2>Welcome, {{ user.first_name|default:user.username }}!</h2>
+      <p>Manage your account and view your order history</p>
+    </div>
+    
+    <div class="profile-section">
+      <h3>Account Information</h3>
+      <div class="info-item">
+        <span class="info-label">Username:</span>
+        <span class="info-value">{{ user.username }}</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">Email:</span>
+        <span class="info-value">{{ user.email }}</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">Date Joined:</span>
+        <span class="info-value">{{ user.date_joined|date:"F j, Y" }}</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">Last Login:</span>
+        <span class="info-value">{{ user.last_login|date:"F j, Y, g:i a"|default:"Never" }}</span>
+      </div>
+    </div>
+    
+    <div class="profile-section">
+      <h3>Order History</h3>
+      {% if orders %}
+        {% for order in orders %}
+        <div class="order-item">
+          <div class="order-header">
+            <span class="order-id">Order #{{ order.order_id }}</span>
+            <span class="order-date">{{ order.timestamp|date:"F j, Y, g:i a" }}</span>
+          </div>
+          <div class="order-amount">${{ order.amount }}</div>
+          <div class="mt-2">
+            <small class="text-muted">Items: {{ order.items_json|length }} products</small>
+          </div>
+        </div>
+        {% endfor %}
+      {% else %}
+        <div class="no-orders">
+          <i class="bi bi-cart-x"></i>
+          <h4>No Orders Yet</h4>
+          <p>You haven't placed any orders yet. Start shopping to see your order history here!</p>
+          <a href="/" class="btn btn-primary">Start Shopping</a>
+        </div>
+      {% endif %}
+    </div>
+    
+    <div class="text-center mt-4">
+      <a href="/" class="btn btn-outline-primary me-3">Continue Shopping</a>
+      <a href="/auth/logout" class="btn btn-outline-danger">Logout</a>
+    </div>
+  </div>
+</div>
+{% endblock content %}

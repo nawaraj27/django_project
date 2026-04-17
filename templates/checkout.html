@@ -1,0 +1,471 @@
+{% extends 'base.html' %}
+{% block title %}Checkout - LinGunGulili{% endblock title %}
+
+{% block content %}
+<style>
+  .checkout-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 40px 20px;
+  }
+  
+  .checkout-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    margin-bottom: 30px;
+  }
+  
+  .checkout-header {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+    color: white;
+    padding: 30px;
+    text-align: center;
+  }
+  
+  .checkout-header h1 {
+    margin: 0;
+    font-size: 2.5rem;
+    font-weight: 700;
+  }
+  
+  .checkout-header p {
+    margin: 10px 0 0 0;
+    opacity: 0.9;
+    font-size: 1.1rem;
+  }
+  
+  .checkout-body {
+    padding: 40px;
+  }
+  
+  .section-title {
+    color: #333;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #e9ecef;
+  }
+  
+  .cart-summary {
+    background: #f8f9fa;
+    border-radius: 15px;
+    padding: 25px;
+    margin-bottom: 30px;
+  }
+  
+  .cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #dee2e6;
+  }
+  
+  .cart-item:last-child {
+    border-bottom: none;
+  }
+  
+  .item-name {
+    font-weight: 600;
+    color: #333;
+    flex: 1;
+  }
+  
+  .item-price {
+    color: #28a745;
+    font-weight: 600;
+    margin: 0 20px;
+  }
+  
+  .item-qty {
+    background: #007bff;
+    color: white;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+  
+  .total-section {
+    background: #e9ecef;
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  .total-amount {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #28a745;
+  }
+  
+  .form-section {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  }
+  
+  .form-group {
+    margin-bottom: 25px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #333;
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+  
+  .form-control {
+    width: 100%;
+    padding: 15px 20px;
+    border: 2px solid #e9ecef;
+    border-radius: 10px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    background: #f8f9fa;
+  }
+  
+  .form-control:focus {
+    outline: none;
+    border-color: #007bff;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+  }
+  
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  
+  @media (max-width: 768px) {
+    .form-row {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  .btn-place-order {
+    width: 100%;
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    color: white;
+    border: none;
+    padding: 18px;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 20px;
+  }
+  
+  .btn-place-order:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(40, 167, 69, 0.3);
+  }
+  
+  .payment-section {
+    background: linear-gradient(135deg, #6f42c1 0%, #e83e8c 100%);
+    border-radius: 15px;
+    padding: 30px;
+    color: white;
+    text-align: center;
+    margin-top: 30px;
+  }
+  
+  .payment-section h4 {
+    margin-bottom: 20px;
+    font-weight: 600;
+  }
+  
+  .payment-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-top: 20px;
+  }
+  
+  .btn-payment {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    padding: 15px 20px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+  }
+  
+  .btn-payment:hover {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.5);
+    color: white;
+    transform: translateY(-2px);
+  }
+  
+  .empty-cart {
+    text-align: center;
+    padding: 60px 20px;
+    color: #666;
+  }
+  
+  .empty-cart i {
+    font-size: 4rem;
+    color: #ddd;
+    margin-bottom: 20px;
+  }
+  
+  .empty-cart h3 {
+    color: #333;
+    margin-bottom: 15px;
+  }
+  
+  .btn-shopping {
+    background: #007bff;
+    color: white;
+    padding: 12px 30px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: inline-block;
+    margin-top: 20px;
+  }
+  
+  .btn-shopping:hover {
+    background: #0056b3;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+  }
+</style>
+
+<div class="checkout-container">
+  <div class="checkout-card">
+    <div class="checkout-header">
+      <h1>Checkout</h1>
+      <p>Complete your purchase and get ready for amazing products!</p>
+    </div>
+    
+    <div class="checkout-body">
+      <!-- Cart Summary Section -->
+      <div class="cart-summary">
+        <h3 class="section-title">
+          <i class="bi bi-cart-check me-2"></i>Order Summary
+        </h3>
+        <div id="cart-items">
+          <!-- Cart items will be populated by JavaScript -->
+        </div>
+        <button id="clear-cart-btn" class="btn btn-danger btn-sm my-2">🧹 Clear All</button>
+        <div class="delivery-estimate mb-2 text-muted">⏱️ Estimated delivery: 3–5 business days</div>
+        <div class="total-section">
+          <p class="mb-2">Total Amount:</p>
+          <div class="total-amount"><span id="total-price">0</span></div>
+        </div>
+      </div>
+      
+      <!-- Checkout Form Section -->
+      <div class="form-section">
+        <h3 class="section-title">
+          <i class="bi bi-person-lines-fill me-2"></i>Shipping Information
+        </h3>
+        
+        <form method="post" action="{% url 'checkout' %}" id="checkout-form">
+          {% csrf_token %}
+          <input type="hidden" name="itemsJson" id="itemsJson">
+          <input type="hidden" name="amt" id="amt">
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="name">Full Name *</label>
+              <input type="text" class="form-control" id="name" name="name" placeholder="Enter your full name" required>
+            </div>
+            <div class="form-group">
+              <label for="email">Email Address *</label>
+              <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" value="{{ user.email }}" required>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="address1">Street Address *</label>
+            <input type="text" class="form-control" id="address1" name="address1" placeholder="123 Main Street" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="address2">Apartment, suite, etc. (optional)</label>
+            <input type="text" class="form-control" id="address2" name="address2" placeholder="Apartment, suite, unit, etc.">
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="city">City *</label>
+              <input type="text" class="form-control" id="city" name="city" placeholder="Enter your city" required>
+            </div>
+            <div class="form-group">
+              <label for="state">State/Province *</label>
+              <input type="text" class="form-control" id="state" name="state" placeholder="Enter your state" required>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="phone">Phone Number *</label>
+            <input type="tel" class="form-control" id="phone" name="phone" placeholder="Enter your phone number" required>
+          </div>
+          
+          <button type="submit" class="btn-place-order">
+            <i class="bi bi-check-circle me-2"></i>Place Order
+          </button>
+        </form>
+      </div>
+      
+      <!-- Payment Methods Section -->
+      <div class="payment-section">
+        <h4>
+          <i class="bi bi-credit-card me-2"></i>Choose Your Payment Method
+        </h4>
+        <p>Secure payment processing through trusted gateways</p>
+        <div class="payment-buttons">
+          <a href="{% url 'payment_choice' %}" id="esewa-btn" class="btn-payment">
+            <i class="bi bi-credit-card me-2"></i>eSewa
+          </a>
+          <a href="{% url 'payment_choice' %}" class="btn-payment">
+            <i class="bi bi-wallet2 me-2"></i>Khalti
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Cart functionality
+let cart = {};
+if (localStorage.getItem('cart')) {
+  cart = JSON.parse(localStorage.getItem('cart'));
+}
+
+function displayCart() {
+  const cartContainer = document.getElementById('cart-items');
+  const totalPriceElement = document.getElementById('total-price');
+  
+  if (Object.keys(cart).length === 0) {
+    cartContainer.innerHTML = `
+      <div class="empty-cart">
+        <i class="bi bi-cart-x"></i>
+        <h3>Your cart is empty</h3>
+        <p>Add some products to your cart before checkout</p>
+        <a href="/" class="btn-shopping">Start Shopping</a>
+      </div>
+    `;
+    totalPriceElement.textContent = '0';
+    return;
+  }
+  
+  let totalPrice = 0;
+  let cartHTML = '';
+  
+  for (const itemId in cart) {
+    const item = cart[itemId];
+    if(!item.name) continue;
+    const itemTotal = item.quantity * parseFloat(item.price);
+    totalPrice += itemTotal;
+    
+    cartHTML += `
+      <div class="cart-item" data-itemid="${itemId}">
+        <div class="item-name">${item.name}</div>
+        <div class="item-price">rs${item.price}</div>
+        <div class="item-qty">${item.quantity}</div>
+        <button class="btn btn-outline-danger btn-sm remove-item-btn" data-itemid="${itemId}">Remove</button>
+      </div>
+    `;
+  }
+  
+  cartContainer.innerHTML = cartHTML;
+  totalPriceElement.textContent = totalPrice.toFixed(2);
+  
+  // Set form values
+  document.getElementById('itemsJson').value = JSON.stringify(cart);
+  document.getElementById('amt').value = totalPrice.toFixed(2);
+  
+  // Update navbar cart badge if present
+  (function(){
+    var cartBadge = document.getElementById('cart');
+    if (cartBadge) {
+      var count = Object.values(cart).reduce(function(total, item){
+        var qty = item && typeof item.quantity === 'number' ? item.quantity : 0;
+        return total + qty;
+      }, 0);
+      cartBadge.textContent = count;
+    }
+  })();
+}
+
+// Initialize cart display
+displayCart();
+
+// Form submission handling
+document.getElementById('checkout-form').addEventListener('submit', function(e) {
+  if (Object.keys(cart).length === 0) {
+    e.preventDefault();
+    alert('Your cart is empty. Please add some items before checkout.');
+    return;
+  }
+  
+  // Form validation
+  const requiredFields = ['name', 'email', 'address1', 'city', 'state', 'phone'];
+  for (const field of requiredFields) {
+    const value = document.getElementById(field).value.trim();
+    if (!value) {
+      e.preventDefault();
+      alert(`Please fill in the ${field} field.`);
+      document.getElementById(field).focus();
+      return;
+    }
+  }
+  document.getElementById('itemsJson').value = JSON.stringify(cart);
+});
+
+// Remove this problematic block:
+// {% if thank %}
+// // Success message handling
+// alert('Thank you for your order! Your order ID is {{id}}. Use it to track your order.');
+// localStorage.removeItem('cart');
+// window.location.href = "/";
+// {% endif %}
+
+document.getElementById('clear-cart-btn').addEventListener('click', function() {
+  if (confirm('Clear all cart items?')) {
+    cart = {};
+    localStorage.setItem('cart', JSON.stringify(cart));
+    displayCart();
+  }
+});
+
+// Delegate remove buttons
+
+document.getElementById('cart-items').addEventListener('click', function(e) {
+  if (e.target.classList.contains('remove-item-btn')) {
+    var itemId = e.target.getAttribute('data-itemid');
+    if (cart[itemId]) {
+      delete cart[itemId];
+      localStorage.setItem('cart', JSON.stringify(cart));
+      displayCart();
+    }
+  }
+});
+
+document.getElementById('esewa-btn').addEventListener('click', function(e) {
+  e.preventDefault();
+  let total = document.getElementById('total-price').textContent;
+  // assumes you have a URL named 'esewa_payment' which accepts 'amount' as a GET param
+  window.location.href = `/esewa_payment/?amount=rs${encodeURIComponent(total)}`;
+});
+</script>
+{% endblock content %}

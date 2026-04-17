@@ -1,0 +1,1091 @@
+{% extends 'base.html' %}
+{% block title %}Test Page - LinGunGulili{% endblock title %}
+
+{% block content %}
+<style>
+  .test-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 40px 20px;
+  }
+  
+  .test-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    margin-bottom: 30px;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .test-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 40px;
+    text-align: center;
+  }
+  
+  .test-header h1 {
+    margin: 0;
+    font-size: 3rem;
+    font-weight: 700;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  }
+  
+  .test-header p {
+    margin: 15px 0 0 0;
+    opacity: 0.9;
+    font-size: 1.2rem;
+  }
+  
+  .test-body {
+    padding: 40px;
+  }
+  
+  .section-title {
+    color: #333;
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 3px solid #667eea;
+    text-align: center;
+  }
+  
+  .test-section {
+    background: #f8f9fa;
+    border-radius: 15px;
+    padding: 30px;
+    margin-bottom: 30px;
+    border-left: 5px solid #667eea;
+  }
+  
+  .component-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+    margin-top: 25px;
+  }
+  
+  .component-card {
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    border: 2px solid #e9ecef;
+    transition: all 0.3s ease;
+  }
+  
+  .component-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    border-color: #667eea;
+  }
+  
+  .component-title {
+    color: #667eea;
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .btn-test {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 25px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 5px;
+  }
+  
+  .btn-test:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+  }
+  
+  .btn-success {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  }
+  
+  .btn-danger {
+    background: linear-gradient(135deg, #dc3545 0%, #fd7e14 100%);
+  }
+  
+  .btn-warning {
+    background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);
+    color: #333;
+  }
+  
+  .form-test {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 15px;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+  
+  .form-control {
+    width: 100%;
+    padding: 10px 15px;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+  }
+  
+  .form-control:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  }
+  
+  .alert-test {
+    padding: 15px;
+    border-radius: 8px;
+    margin: 15px 0;
+    font-weight: 500;
+  }
+  
+  .alert-success {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+  }
+  
+  .alert-danger {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+  }
+  
+  .alert-warning {
+    background: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeaa7;
+  }
+  
+  .alert-info {
+    background: #d1ecf1;
+    color: #0c5460;
+    border: 1px solid #bee5eb;
+  }
+  
+  .progress-bar {
+    width: 100%;
+    height: 20px;
+    background: #e9ecef;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 15px 0;
+  }
+  
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 10px;
+    transition: width 0.5s ease;
+  }
+  
+  .badge-test {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    margin: 5px;
+  }
+  
+  .badge-primary {
+    background: #667eea;
+    color: white;
+  }
+  
+  .badge-success {
+    background: #28a745;
+    color: white;
+  }
+  
+  .badge-warning {
+    background: #ffc107;
+    color: #333;
+  }
+  
+  .badge-danger {
+    background: #dc3545;
+    color: white;
+  }
+  
+  .card-test {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 15px 0;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    border-left: 4px solid #667eea;
+  }
+  
+  .card-title {
+    color: #333;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  
+  .card-text {
+    color: #666;
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+  
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #667eea;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 20px auto;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  .modal-test {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  
+  .modal-content {
+    background-color: white;
+    margin: 15% auto;
+    padding: 30px;
+    border-radius: 15px;
+    width: 80%;
+    max-width: 500px;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  }
+  
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: -20px;
+    margin-right: -20px;
+  }
+  
+  .close:hover {
+    color: #667eea;
+  }
+  
+  .counter-display {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #667eea;
+    text-align: center;
+    margin: 20px 0;
+  }
+  
+  .color-picker {
+    width: 100%;
+    height: 50px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    margin: 10px 0;
+  }
+  
+  .slider-test {
+    width: 100%;
+    margin: 15px 0;
+  }
+  
+  .toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+  }
+  
+  .toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+  }
+  
+  input:checked + .slider {
+    background-color: #667eea;
+  }
+  
+  input:checked + .slider:before {
+    transform: translateX(26px);
+  }
+  
+  /* Calculator Styles */
+  .calculator-container {
+    background: #f8f9fa;
+    border-radius: 15px;
+    padding: 20px;
+    margin-top: 15px;
+  }
+  
+  .calculator-screen {
+    background: #e9ecef;
+    border: 2px solid #dee2e6;
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-align: right;
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 10px;
+  }
+  
+  .calculator-buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+  
+  .calc-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 10px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .calc-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+  }
+  
+  .calc-operator {
+    background: linear-gradient(135deg, #fd7e14 0%, #f39c12 100%);
+  }
+  
+  .calc-equals {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  }
+  
+  .calc-clear {
+    background: linear-gradient(135deg, #dc3545 0%, #e74c3c 100%);
+  }
+  
+  .calc-history {
+    max-height: 200px;
+    overflow-y: auto;
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 15px;
+    margin-top: 15px;
+    border: 1px solid #dee2e6;
+  }
+  
+  .calc-history p {
+    margin: 5px 0;
+    padding: 8px;
+    background: white;
+    border-radius: 5px;
+    border-left: 3px solid #667eea;
+  }
+  
+  /* Password Mask Styles */
+  .mask-container {
+    position: relative;
+  }
+  
+  .mask-input {
+    position: relative;
+  }
+  
+  .mask-status {
+    margin-top: 15px;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .calculator-buttons {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+    
+    .calc-btn {
+      padding: 12px 8px;
+      font-size: 1rem;
+    }
+    
+    .calculator-screen {
+      font-size: 1.2rem;
+      padding: 12px;
+    }
+  }
+</style>
+
+<div class="test-container">
+  <div class="test-card">
+    <div class="test-header">
+      <h1>🧪 Test Page</h1>
+      <p>Testing various UI components and interactive elements</p>
+    </div>
+    
+    <div class="test-body">
+      <!-- Buttons Section -->
+      <div class="test-section">
+        <h2 class="section-title">
+          <i class="bi bi-lightning me-2"></i>Button Components
+        </h2>
+        <div class="component-grid">
+          <div class="component-card">
+            <h3 class="component-title">Basic Buttons</h3>
+            <button class="btn-test">Primary Button</button>
+            <button class="btn-test btn-success">Success Button</button>
+            <button class="btn-test btn-danger">Danger Button</button>
+            <button class="btn-test btn-warning">Warning Button</button>
+          </div>
+          
+          <div class="component-card">
+            <h3 class="component-title">Interactive Buttons</h3>
+            <button class="btn-test" onclick="showAlert('success')">Show Success</button>
+            <button class="btn-test btn-danger" onclick="showAlert('danger')">Show Error</button>
+            <button class="btn-test btn-warning" onclick="showAlert('warning')">Show Warning</button>
+            <button class="btn-test" onclick="showAlert('info')">Show Info</button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Forms Section -->
+      <div class="test-section">
+        <h2 class="section-title">
+          <i class="bi bi-input-cursor me-2"></i>Form Components
+        </h2>
+        <div class="component-grid">
+          <div class="component-card">
+            <h3 class="component-title">Input Fields</h3>
+            <div class="form-test">
+              <div class="form-group">
+                <label>Text Input</label>
+                <input type="text" class="form-control" placeholder="Enter text here">
+              </div>
+              <div class="form-group">
+                <label>Email Input</label>
+                <input type="email" class="form-control" placeholder="Enter email">
+              </div>
+              <div class="form-group">
+                <label>Password Input</label>
+                <input type="password" class="form-control" placeholder="Enter password">
+              </div>
+            </div>
+          </div>
+          
+          <div class="component-card">
+            <h3 class="component-title">Form Controls</h3>
+            <div class="form-test">
+              <div class="form-group">
+                <label>Color Picker</label>
+                <input type="color" class="color-picker" value="#667eea">
+              </div>
+              <div class="form-group">
+                <label>Range Slider</label>
+                <input type="range" class="slider-test" min="0" max="100" value="50">
+              </div>
+              <div class="form-group">
+                <label>Toggle Switch</label>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="toggle1">
+                  <span class="slider"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Alerts Section -->
+      <div class="test-section">
+        <h2 class="section-title">
+          <i class="bi bi-exclamation-triangle me-2"></i>Alert Components
+        </h2>
+        <div class="component-grid">
+          <div class="component-card">
+            <h3 class="component-title">Alert Types</h3>
+            <div class="alert-test alert-success">
+              <i class="bi bi-check-circle me-2"></i>This is a success alert!
+            </div>
+            <div class="alert-test alert-danger">
+              <i class="bi bi-x-circle me-2"></i>This is a danger alert!
+            </div>
+            <div class="alert-test alert-warning">
+              <i class="bi bi-exclamation-triangle me-2"></i>This is a warning alert!
+            </div>
+            <div class="alert-test alert-info">
+              <i class="bi bi-info-circle me-2"></i>This is an info alert!
+            </div>
+          </div>
+          
+          <div class="component-card">
+            <h3 class="component-title">Dynamic Alerts</h3>
+            <div id="dynamic-alerts"></div>
+            <button class="btn-test" onclick="addRandomAlert()">Add Random Alert</button>
+            <button class="btn-test btn-danger" onclick="clearAlerts()">Clear All</button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Progress & Badges Section -->
+      <div class="test-section">
+        <h2 class="section-title">
+          <i class="bi bi-bar-chart me-2"></i>Progress & Badges
+        </h2>
+        <div class="component-grid">
+          <div class="component-card">
+            <h3 class="component-title">Progress Bars</h3>
+            <div class="progress-bar">
+              <div class="progress-fill" id="progress1" style="width: 75%"></div>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" id="progress2" style="width: 45%"></div>
+            </div>
+            <button class="btn-test" onclick="animateProgress()">Animate Progress</button>
+          </div>
+          
+          <div class="component-card">
+            <h3 class="component-title">Badges</h3>
+            <span class="badge-test badge-primary">Primary</span>
+            <span class="badge-test badge-success">Success</span>
+            <span class="badge-test badge-warning">Warning</span>
+            <span class="badge-test badge-danger">Danger</span>
+            <br><br>
+            <button class="btn-test" onclick="addRandomBadge()">Add Random Badge</button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Cards & Modals Section -->
+      <div class="test-section">
+        <h2 class="section-title">
+          <i class="bi bi-card-text me-2"></i>Cards & Modals
+        </h2>
+        <div class="component-grid">
+          <div class="component-card">
+            <h3 class="component-title">Card Components</h3>
+            <div class="card-test">
+              <h4 class="card-title">Sample Card</h4>
+              <p class="card-text">This is a sample card component with some content.</p>
+            </div>
+            <button class="btn-test" onclick="addCard()">Add New Card</button>
+          </div>
+          
+          <div class="component-card">
+            <h3 class="component-title">Modal Trigger</h3>
+            <button class="btn-test" onclick="openModal()">Open Modal</button>
+            <button class="btn-test btn-success" onclick="showCounter()">Show Counter</button>
+            <div class="counter-display" id="counter">0</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Interactive Elements Section -->
+      <div class="test-section">
+        <h2 class="section-title">
+          <i class="bi bi-magic me-2"></i>Interactive Elements
+        </h2>
+        <div class="component-grid">
+          <div class="component-card">
+            <h3 class="component-title">Loading Spinner</h3>
+            <div class="spinner" id="spinner"></div>
+            <button class="btn-test" onclick="toggleSpinner()">Toggle Spinner</button>
+          </div>
+          
+          <div class="component-card">
+            <h3 class="component-title">Dynamic Content</h3>
+            <div id="dynamic-content">
+              <p>Click the button to change this content!</p>
+            </div>
+            <button class="btn-test" onclick="changeContent()">Change Content</button>
+            <button class="btn-test btn-success" onclick="resetContent()">Reset</button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Password Mask Section -->
+      <div class="test-section">
+        <h2 class="section-title">
+          <i class="bi bi-shield-lock me-2"></i>Password Masking
+        </h2>
+        <div class="component-grid">
+          <div class="component-card">
+            <h3 class="component-title">Password Mask Demo</h3>
+            <div class="form-test">
+              <div class="form-group">
+                <label>Visible Input (Masked)</label>
+                <input type="text" id="txtMask" class="form-control" placeholder="Type here to see masking" autocomplete="off" readonly>
+              </div>
+              <div class="form-group">
+                <label>Hidden Input (Real Value)</label>
+                <input type="text" id="pass" class="form-control" placeholder="Type your password here">
+              </div>
+              <div class="mt-3">
+                <small class="text-muted">
+                  <i class="bi bi-info-circle me-1"></i>
+                  The top input shows asterisks while you type in the bottom input
+                </small>
+              </div>
+            </div>
+          </div>
+          
+          <div class="component-card">
+            <h3 class="component-title">Masking Controls</h3>
+            <div class="form-test">
+              <button class="btn-test" onclick="toggleMask()">Toggle Mask</button>
+              <button class="btn-test btn-success" onclick="clearMask()">Clear</button>
+              <button class="btn-test btn-warning" onclick="showRealValue()">Show Real Value</button>
+              <div class="mt-3">
+                <div id="mask-status" class="alert-test alert-info">
+                  <i class="bi bi-eye-slash me-2"></i>Masking is active
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Calculator Section -->
+      <div class="test-section">
+        <h2 class="section-title">
+          <i class="bi bi-calculator me-2"></i>Calculator
+        </h2>
+        <div class="component-grid">
+          <div class="component-card">
+            <h3 class="component-title">Simple Calculator</h3>
+            <div class="calculator-container">
+              <input type="text" id="screen" class="form-control calculator-screen" readonly>
+              <div class="calculator-buttons">
+                <button class="calc-btn">7</button>
+                <button class="calc-btn">8</button>
+                <button class="calc-btn">9</button>
+                <button class="calc-btn calc-operator">+</button>
+                
+                <button class="calc-btn">4</button>
+                <button class="calc-btn">5</button>
+                <button class="calc-btn">6</button>
+                <button class="calc-btn calc-operator">-</button>
+                
+                <button class="calc-btn">1</button>
+                <button class="calc-btn">2</button>
+                <button class="calc-btn">3</button>
+                <button class="calc-btn calc-operator">*</button>
+                
+                <button class="calc-btn">0</button>
+                <button class="calc-btn">.</button>
+                <button class="calc-btn calc-equals">=</button>
+                <button class="calc-btn calc-operator">/</button>
+                
+                <button class="calc-btn calc-clear">C</button>
+                <button class="calc-btn calc-clear">AC</button>
+                <button class="calc-btn calc-operator">%</button>
+                <button class="calc-btn calc-operator">^</button>
+              </div>
+            </div>
+          </div>
+          
+          <div class="component-card">
+            <h3 class="component-title">Calculator History</h3>
+            <div class="form-test">
+              <div id="calc-history" class="calc-history">
+                <p class="text-muted">No calculations yet</p>
+              </div>
+              <button class="btn-test" onclick="clearHistory()">Clear History</button>
+              <button class="btn-test btn-success" onclick="exportHistory()">Export History</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div id="testModal" class="modal-test">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <h2>Test Modal</h2>
+    <p>This is a test modal window. You can close it by clicking the X or clicking outside.</p>
+    <button class="btn-test" onclick="closeModal()">Close</button>
+  </div>
+</div>
+
+<script>
+// Counter functionality
+let counter = 0;
+
+function showCounter() {
+  counter++;
+  document.getElementById('counter').textContent = counter;
+}
+
+// Modal functionality
+function openModal() {
+  document.getElementById('testModal').style.display = 'block';
+}
+
+function closeModal() {
+  document.getElementById('testModal').style.display = 'none';
+}
+
+// Close modal when clicking outside
+window.onclick = function(event) {
+  const modal = document.getElementById('testModal');
+  if (event.target === modal) {
+    modal.style.display = 'none';
+  }
+}
+
+// Alert functionality
+function showAlert(type) {
+  const alertDiv = document.createElement('div');
+  alertDiv.className = `alert-test alert-${type}`;
+  
+  const icons = {
+    success: 'bi-check-circle',
+    danger: 'bi-x-circle',
+    warning: 'bi-exclamation-triangle',
+    info: 'bi-info-circle'
+  };
+  
+  const messages = {
+    success: 'Operation completed successfully!',
+    danger: 'An error occurred!',
+    warning: 'Please be careful!',
+    info: 'Here is some information.'
+  };
+  
+  alertDiv.innerHTML = `<i class="bi ${icons[type]} me-2"></i>${messages[type]}`;
+  
+  // Add to dynamic alerts section
+  const container = document.getElementById('dynamic-alerts');
+  container.appendChild(alertDiv);
+  
+  // Auto-remove after 5 seconds
+  setTimeout(() => {
+    alertDiv.remove();
+  }, 5000);
+}
+
+function addRandomAlert() {
+  const types = ['success', 'danger', 'warning', 'info'];
+  const randomType = types[Math.floor(Math.random() * types.length)];
+  showAlert(randomType);
+}
+
+function clearAlerts() {
+  document.getElementById('dynamic-alerts').innerHTML = '';
+}
+
+// Progress animation
+function animateProgress() {
+  const progress1 = document.getElementById('progress1');
+  const progress2 = document.getElementById('progress2');
+  
+  progress1.style.width = '0%';
+  progress2.style.width = '0%';
+  
+  setTimeout(() => {
+    progress1.style.width = '75%';
+    progress2.style.width = '45%';
+  }, 100);
+}
+
+// Badge functionality
+function addRandomBadge() {
+  const colors = ['primary', 'success', 'warning', 'danger'];
+  const randomColor = colors[Math.floor(Math.random() * colors.length)];
+  
+  const badge = document.createElement('span');
+  badge.className = `badge-test badge-${randomColor}`;
+  badge.textContent = `Random ${randomColor}`;
+  
+  const container = document.querySelector('.component-card:has(.badge-test)');
+  container.appendChild(badge);
+}
+
+// Card functionality
+function addCard() {
+  const card = document.createElement('div');
+  card.className = 'card-test';
+  card.innerHTML = `
+    <h4 class="card-title">New Card ${Date.now()}</h4>
+    <p class="card-text">This is a dynamically added card!</p>
+  `;
+  
+  const container = document.querySelector('.component-card:has(.card-test)');
+  container.appendChild(card);
+}
+
+// Spinner functionality
+function toggleSpinner() {
+  const spinner = document.getElementById('spinner');
+  spinner.style.display = spinner.style.display === 'none' ? 'block' : 'none';
+}
+
+// Content change functionality
+function changeContent() {
+  const content = document.getElementById('dynamic-content');
+  const phrases = [
+    'Content has been updated!',
+    'Something new here!',
+    'Dynamic content is working!',
+    'Another change!',
+    'Keep clicking for more!'
+  ];
+  
+  const randomPhrase = phrases[Math.floor(Math.random() * phrases.length)];
+  content.innerHTML = `<p>${randomPhrase}</p>`;
+}
+
+function resetContent() {
+  const content = document.getElementById('dynamic-content');
+  content.innerHTML = '<p>Click the button to change this content!</p>';
+}
+
+// Password Masking functionality
+let isMaskingActive = true;
+
+function toggleMask() {
+  const txtMask = document.getElementById('txtMask');
+  const pass = document.getElementById('pass');
+  const maskStatus = document.getElementById('mask-status');
+  
+  isMaskingActive = !isMaskingActive;
+  
+  if (isMaskingActive) {
+    txtMask.type = 'text';
+    pass.type = 'text';
+    maskStatus.className = 'alert-test alert-info';
+    maskStatus.innerHTML = '<i class="bi bi-eye-slash me-2"></i>Masking is active';
+  } else {
+    txtMask.type = 'text';
+    pass.type = 'text';
+    maskStatus.className = 'alert-test alert-warning';
+    maskStatus.innerHTML = '<i class="bi bi-eye me-2"></i>Masking is inactive';
+  }
+}
+
+function clearMask() {
+  const txtMask = document.getElementById('txtMask');
+  const pass = document.getElementById('pass');
+  txtMask.value = '';
+  pass.value = '';
+  showAlert('success');
+}
+
+function showRealValue() {
+  const txtMask = document.getElementById('txtMask');
+  const pass = document.getElementById('pass');
+  const maskStatus = document.getElementById('mask-status');
+  
+  if (isMaskingActive) {
+    // Show real value temporarily
+    txtMask.value = pass.value;
+    maskStatus.className = 'alert-test alert-warning';
+    maskStatus.innerHTML = '<i class="bi bi-eye me-2"></i>Showing real value';
+    
+    // Hide real value after 3 seconds
+    setTimeout(() => {
+      if (isMaskingActive) {
+        txtMask.value = '*'.repeat(pass.value.length);
+        maskStatus.className = 'alert-test alert-info';
+        maskStatus.innerHTML = '<i class="bi bi-eye-slash me-2"></i>Masking is active';
+      }
+    }, 3000);
+  } else {
+    txtMask.value = pass.value;
+    maskStatus.className = 'alert-test alert-warning';
+    maskStatus.innerHTML = '<i class="bi bi-eye me-2"></i>Masking is inactive';
+  }
+}
+
+// Initialize password masking
+document.addEventListener('DOMContentLoaded', function() {
+  const txtMask = document.getElementById('txtMask');
+  const pass = document.getElementById('pass');
+  
+  // Set up password masking
+  pass.addEventListener('input', function() {
+    if (isMaskingActive) {
+      txtMask.value = '*'.repeat(this.value.length);
+    } else {
+      txtMask.value = this.value;
+    }
+  });
+  
+  // Initialize some interactive elements
+  const toggle = document.getElementById('toggle1');
+  if (toggle) {
+    toggle.addEventListener('change', function() {
+      if (this.checked) {
+        showAlert('success');
+      } else {
+        showAlert('info');
+      }
+    });
+  }
+  
+  // Color picker change
+  const colorPicker = document.querySelector('.color-picker');
+  if (colorPicker) {
+    colorPicker.addEventListener('change', function() {
+      document.body.style.setProperty('--accent-color', this.value);
+    });
+  }
+  
+  // Range slider change
+  const rangeSlider = document.querySelector('.slider-test');
+  if (rangeSlider) {
+    rangeSlider.addEventListener('input', function() {
+      const progress = document.getElementById('progress1');
+      if (progress) {
+        progress.style.width = this.value + '%';
+      }
+    });
+  }
+});
+ 
+// Calculator functionality
+let screenValue = "";
+let currentInput = '';
+let operator = '';
+let previousInput = '';
+let calculationHistory = [];
+ 
+// Initialize calculator when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+  const screen = document.getElementById('screen');
+  const buttons = document.querySelectorAll('.calc-btn');
+  
+  for (let item of buttons) {
+    item.addEventListener('click', (e) => {
+      const buttonText = e.target.innerText;
+      
+      if (buttonText == '=') {
+        try {
+          const result = eval(screenValue);
+          screen.value = result;
+          addToHistory(`${screenValue} = ${result}`);
+          screenValue = result.toString();
+        } catch (error) {
+          screen.value = 'Error';
+          screenValue = '';
+        }
+      } else if (buttonText == 'C') {
+        screenValue = "";
+        screen.value = "";
+      } else if (buttonText == 'AC') {
+        screenValue = "";
+        screen.value = "";
+        clearHistory();
+      } else {
+        screenValue += buttonText;
+        screen.value = screenValue;
+      }
+    });
+  }
+});
+ 
+function addToHistory(expression) {
+  const historyDiv = document.getElementById('calc-history');
+  if (historyDiv.querySelector('.text-muted')) {
+    historyDiv.innerHTML = '';
+  }
+  
+  const historyItem = document.createElement('p');
+  historyItem.textContent = expression;
+  historyItem.className = 'history-item';
+  historyDiv.appendChild(historyItem);
+  
+  calculationHistory.push(expression);
+  historyDiv.scrollTop = historyDiv.scrollHeight;
+}
+ 
+function clearHistory() {
+  const historyDiv = document.getElementById('calc-history');
+  historyDiv.innerHTML = '<p class="text-muted">No calculations yet</p>';
+  calculationHistory = [];
+}
+ 
+function exportHistory() {
+  if (calculationHistory.length === 0) {
+    alert('No calculations to export!');
+    return;
+  }
+  
+  const historyText = calculationHistory.join('\n');
+  const blob = new Blob([historyText], { type: 'text/plain' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'calculator_history.txt';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  
+  showAlert('success');
+}
+</script>
+{% endblock content %}

@@ -8,113 +8,122 @@
     <meta name="description" content="We are here for your happiness" />
     <meta name="keywords" content="ecommerce" />
 
-    <!-- Favicons -->
     <link href="{% static 'assets/img/favicon.png' %}" rel="icon" />
-    <link
-      href="{% static 'assets/img/apple-touch-icon.png' %}"
-      rel="apple-touch-icon"
-    />
-
-    <!-- Google Fonts -->
+    <link href="{% static 'assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon" />
     <link href="https://fonts.googleapis.com" rel="preconnect" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Poppins:wght@400;700&display=swap"
-      rel="stylesheet"
-    />
-
-    <!-- Vendor CSS Files -->
-    <link
-      href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}"
-      rel="stylesheet"
-    />
-    <link
-      href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
+    <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet" />
     <link href="{% static 'assets/vendor/aos/aos.css' %}" rel="stylesheet" />
-    <link
-      href="{% static 'assets/vendor/glightbox/css/glightbox.min.css' %}"
-      rel="stylesheet"
-    />
-    <link
-      href="{% static 'assets/vendor/swiper/swiper-bundle.min.css' %}"
-      rel="stylesheet"
-    />
-
-    <!-- Main CSS File -->
+    <link href="{% static 'assets/vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'assets/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet" />
     <link href="{% static 'assets/css/main.css' %}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
   </head>
 
   <body class="index-page">
+    <!-- Header -->
     <header id="header" class="header d-flex align-items-center sticky-top">
-      <div
-        class="container-fluid position-relative d-flex align-items-center justify-content-between"
-      >
+      <div class="container-fluid position-relative d-flex align-items-center justify-content-between">
         <a href="/" class="logo d-flex align-items-center me-auto me-xl-0">
-          <img
-            src="{% static 'images/logo.png' %}"
-            class="img-fluid"
-            alt="logo"
-          />
-          <h1 class="sitename">LinGunGulili</h1>
-          <span>.</span>
+          <img src="https://wallpapercave.com/wp/wp4616650.jpg" class="logo-img me-2" alt="logo" />
+          <h1 class="sitename mb-0">LinGunGulili</h1><span class="text-primary">.</span>
         </a>
 
+        <!-- Nav -->
         <nav id="navmenu" class="navmenu">
-          <ul>
-            <li><a href="/" class="active">Home</a></li>
-            <li><a href="/about">About</a></li>
-            <li><a href="/orders">Orders</a></li>
-            <li><a href="/profile">My Profile</a></li>
-            <li><a href="#team">Team</a></li>
-            <li><a href="/blog">Blog</a></li>
-            <li class="dropdown">
-              <a href="#"
-                ><span>SignIn</span>
-                <i class="bi bi-chevron-down toggle-dropdown"></i
-              ></a>
-              <ul>
-                <li><a href="/auth/signup">Sign Up</a></li>
-                <li><a href="/auth/login">Login</a></li>
-                <li><a href="/auth/logout">Logout</a></li>
-              </ul>
+          <ul class="nav-list">
+            <li class="nav-item"><a href="/" class="nav-link active">Home</a></li>
+            <li class="nav-item"><a href="/about" class="nav-link">About</a></li>
+            <li class="nav-item"><a href="/contact" class="nav-link">Contact</a></li>
+            <li class="nav-item"><a href="/checkout" class="nav-link">Checkout</a></li>
+            {% if user.is_authenticated %}
+              <li class="nav-item"><a href="/profile" class="nav-link">My Profile</a></li>
+              <li class="nav-item"><a href="/tracker" class="nav-link">Order Tracker</a></li>
+              <li class="nav-item">
+                
+              </li>
+              {% if user.is_authenticated and user.is_staff %}
+                <li class="nav-item"><a href="/test" class="nav-link">Test Page</a></li>
+              {% endif %}
+              <li class="nav-item"><a href="/auth/logout" class="nav-link">Logout</a></li>
+            {% else %}
+              <li class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle"><span>SignIn</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                <ul class="dropdown-menu">
+                  <li><a href="/auth/signup" class="dropdown-item">Sign Up</a></li>
+                  <li><a href="/auth/login" class="dropdown-item">Login</a></li>
+                </ul>
+              </li>
+            {% endif %}
+
+            <!-- Cart Button -->
+            <li class="nav-item cart-nav">
+              <button id="popcart" 
+                type="button"
+                class="btn btn-primary position-relative cart-btn"
+                data-bs-toggle="popover"
+                data-bs-trigger="focus"
+                data-bs-html="true"
+                data-bs-content="Your cart is empty"
+                aria-describedby="popover-cart"
+              >
+                <i class="bi bi-cart-fill me-1"></i> Cart
+                <span id="cart" class="badge bg-danger rounded-pill">0</span>
+              </button>
             </li>
-            <li class="cart">
-              <a href="#" id="cart-toggle">
-                <i class="bi bi-cart-fill"></i> Cart
-                <span id="cart-count">0</span>
-              </a>
-            </li>
-            <li><a href="#contact">Contact</a></li>
           </ul>
+
           <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
         </nav>
 
-        <a class="btn-getstarted" href="#about">Get Started</a>
+        <span style="display:inline-block; visibility:hidden; width:50px;"></span>
+
       </div>
     </header>
 
+    <!-- Main -->
     <main class="main">
-      <section id="hero" class="hero section">
-        <div
-          class="container d-flex flex-column justify-content-center align-items-center text-center position-relative"
-          data-aos="zoom-out"
-        >
-          <img
-            src="{% static 'assets/img/hero-img.svg' %}"
-            class="img-fluid animated"
-            alt=""
-          />
-          {% block content %} 
-          
+      <!-- Django Messages -->
+      <div class="container-fluid mt-3">
+        {% if messages %}
+          <div class="row">
+            <div class="col-12">
+              {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                  {{ message }}
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        {% endif %}
+      </div>
 
-          {% endblock content %}
+      <!-- Hero Section -->
+      {% if request.resolver_match.url_name == 'home' %}
+      <section id="hero" class="hero section">
+        <div class="container d-flex flex-column justify-content-center align-items-center text-center position-relative" data-aos="zoom-out">
+          <img src="{% static 'assets/img/hero-img.svg' %}" class="img-fluid animated hero-image" alt="" />
+          <div class="hero-content text-center">
+            <h1 class="display-4 fw-bold text-primary mb-4">Boost your experience like a Rocket</h1>
+            <p class="lead text-muted mb-4">Discover amazing products at unbeatable prices</p>
+          </div>
+        </div>
+      </section>
+      {% endif %}
+      
+      <!-- Main Content Section -->
+      <section class="section">
+        <div class="container">
+          {% block content %}{% endblock content %}
         </div>
       </section>
     </main>
 
-    {% block body %}{% endblock %}
+    {% block body %}{% endblock body %}
 
+    <!-- Footer -->
     <footer id="footer" class="footer dark-background">
       <div class="footer-top">
         <div class="container">
@@ -124,12 +133,10 @@
                 <span class="sitename">LinGunGulili</span>
               </a>
               <div class="footer-contact pt-3">
-                <p>A108 Adam Street</p>
-                <p>New York, NY 535022</p>
-                <p class="mt-3">
-                  <strong>Phone:</strong> <span>+1 5589 55488 55</span>
-                </p>
-                <p><strong>Email:</strong> <span>info@example.com</span></p>
+                <p>Bhaktapur, Nepal</p>
+                <p>NEPAL, KATHMANDU</p>
+                <p class="mt-3"><strong>Phone:</strong> <span>+977 9800000000</span></p>
+                <p><strong>Email:</strong> <span>lingungulili@gmail.com</span></p>
               </div>
             </div>
 
@@ -181,19 +188,10 @@
       </div>
 
       <div class="copyright text-center">
-        <div
-          class="container d-flex flex-column flex-lg-row justify-content-center justify-content-lg-between align-items-center"
-        >
-          <div
-            class="d-flex flex-column align-items-center align-items-lg-start"
-          >
-            <div>
-              © Copyright <strong><span>LinGunGulili</span></strong
-              >. All Rights Reserved
-            </div>
-            <div class="credits">
-              Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-            </div>
+        <div class="container d-flex flex-column flex-lg-row justify-content-center justify-content-lg-between align-items-center">
+          <div class="d-flex flex-column align-items-center align-items-lg-start">
+            <div>© Copyright <strong><span>LinGunGulili</span></strong>. All Rights Reserved</div>
+            <div class="credits">Designed by <a href="https://bootstrapmade.com/">saugat</a></div>
           </div>
           <div class="social-links order-first order-lg-last mb-3 mb-lg-0">
             <a href="#"><i class="bi bi-twitter-x"></i></a>
@@ -205,18 +203,14 @@
       </div>
     </footer>
 
-    <!-- Scroll Top -->
-    <a
-      href="#"
-      id="scroll-top"
-      class="scroll-top d-flex align-items-center justify-content-center"
-      ><i class="bi bi-arrow-up-short"></i
-    ></a>
+    <!-- Scroll -->
+    <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center">
+      <i class="bi bi-arrow-up-short"></i>
+    </a>
 
-    <!-- Preloader -->
     <div id="preloader"></div>
 
-    <!-- Vendor JS Files -->
+    <!-- JS -->
     <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
     <script src="{% static 'assets/vendor/php-email-form/validate.js' %}"></script>
     <script src="{% static 'assets/vendor/aos/aos.js' %}"></script>
@@ -224,8 +218,259 @@
     <script src="{% static 'assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
     <script src="{% static 'assets/vendor/imagesloaded/imagesloaded.pkgd.min.js' %}"></script>
     <script src="{% static 'assets/vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
-
-    <!-- Main JS File -->
     <script src="{% static 'assets/js/main.js' %}"></script>
+
+    <!-- Bootstrap Popover -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const popcart = document.getElementById("popcart");
+        if (popcart) {
+          new bootstrap.Popover(popcart);
+        }
+      });
+    </script>
+
+    <!-- Custom CSS -->
+    <style>
+      /* Header Styles */
+      .header {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        padding: 15px 0;
+        transition: all 0.3s ease;
+      }
+
+      .logo-img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+
+      .sitename {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #2c3e50;
+        margin: 0;
+      }
+
+      /* Navigation Styles */
+      .nav-list {
+        display: flex;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        gap: 2rem;
+        align-items: center;
+      }
+
+      .nav-link {
+        color: #2c3e50;
+        text-decoration: none;
+        font-weight: 500;
+        padding: 8px 16px;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+        position: relative;
+      }
+
+      .nav-link:hover,
+      .nav-link.active {
+        color: #007bff;
+        background-color: rgba(0, 123, 255, 0.1);
+      }
+
+      .nav-link.active::after {
+        content: '';
+        position: absolute;
+        bottom: -5px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 20px;
+        height: 2px;
+        background: #007bff;
+        border-radius: 1px;
+      }
+
+      /* Cart Button */
+      .cart-btn {
+        padding: 8px 16px;
+        border-radius: 25px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+      }
+
+      .cart-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+      }
+
+      /* Hero Section */
+      .hero {
+        padding: 80px 0;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.3);
+        z-index: 1;
+      }
+
+      .hero .container {
+        position: relative;
+        z-index: 2;
+      }
+
+      .hero-image {
+        max-width: 300px;
+        margin-bottom: 2rem;
+        filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3));
+      }
+
+      .hero-content h1 {
+        font-size: 3rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      .hero-content p {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+        opacity: 0.9;
+      }
+
+      .hero-content .btn {
+        padding: 12px 30px;
+        font-size: 1.1rem;
+        border-radius: 50px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+      }
+
+      .hero-content .btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+      }
+
+      /* Footer */
+      .footer {
+        background: #2c3e50;
+        color: white;
+        padding: 60px 0 20px;
+      }
+
+      .footer-links ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .footer-links a {
+        color: #bdc3c7;
+        text-decoration: none;
+        transition: color 0.3s ease;
+        display: block;
+        padding: 5px 0;
+      }
+
+      .footer-links a:hover {
+        color: #3498db;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .nav-list {
+          gap: 1rem;
+        }
+
+        .hero-content h1 {
+          font-size: 2rem;
+        }
+
+        .hero-content p {
+          font-size: 1rem;
+        }
+
+        .sitename {
+          font-size: 1.2rem;
+        }
+      }
+
+      /* Utility Classes */
+      .text-primary {
+        color: #007bff !important;
+      }
+
+      .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+      }
+
+      .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
+      }
+
+      /* Remove underline from links */
+      a {
+        text-decoration: none !important;
+      }
+
+      /* Smooth transitions */
+      * {
+        transition: all 0.3s ease;
+      }
+
+      /* Styling for non-home pages */
+      .section:not(.hero) {
+        padding-top: 20x;
+        min-height: calc(10vh - 80px);
+      }
+
+      /* Ensure auth pages have proper spacing */
+      .auth-container {
+        padding-top: 20px;
+      }
+    </style>
+    <script>
+      // Update cart badge globally on all pages
+      (function() {
+        function getCartFromStorage() {
+          try {
+            const raw = localStorage.getItem('cart');
+            return raw ? JSON.parse(raw) : {};
+          } catch (e) {
+            return {};
+          }
+        }
+        function computeCartCount(cartObj) {
+          return Object.values(cartObj).reduce(function(total, item) {
+            var qty = item && typeof item.quantity === 'number' ? item.quantity : 0;
+            return total + qty;
+          }, 0);
+        }
+        function updateCartBadge() {
+          var cartBadge = document.getElementById('cart');
+          if (!cartBadge) return;
+          var cartObj = getCartFromStorage();
+          var count = computeCartCount(cartObj);
+          cartBadge.textContent = count;
+        }
+        document.addEventListener('DOMContentLoaded', updateCartBadge);
+      })();
+    </script>
   </body>
 </html>

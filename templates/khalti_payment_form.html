@@ -1,0 +1,243 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Khalti Payment{% endblock title %}
+
+{% block content %}
+<div class="hero-content text-center">
+  <h1 class="display-4 fw-bold text-purple mb-4">Khalti Payment</h1>
+  <p class="lead text-muted mb-4">Complete your payment securely with Khalti</p>
+</div>
+{% endblock content %}
+
+{% block body %}
+<section class="khalti-payment-section py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-6 col-md-8">
+        <div class="payment-form-card border rounded shadow-lg">
+          <div class="card-header text-center p-4 bg-purple text-white">
+            <div class="payment-icon mb-3">
+              <i class="bi bi-wallet2" style="font-size: 3rem;"></i>
+            </div>
+            <h3 class="mb-0">Khalti Payment Form</h3>
+            <p class="mb-0 opacity-75">Enter your payment details below</p>
+          </div>
+          
+          <div class="card-body p-4">
+            <form method="POST" action="{% url 'khalti_payment' %}">
+              {% csrf_token %}
+              
+              <!-- Django Messages -->
+              {% if messages %}
+                {% for message in messages %}
+                  <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
+                {% endfor %}
+              {% endif %}
+              
+              <!-- Amount Field -->
+              <div class="form-group mb-4">
+                <label for="amount" class="form-label fw-bold">
+                  <i class="bi bi-currency-dollar me-2"></i>Amount (NPR)
+                </label>
+                <input 
+                  type="number" 
+                  class="form-control form-control-lg" 
+                  id="amount" 
+                  name="amount" 
+                  required 
+                  min="1" 
+                  step="0.01" 
+                  placeholder="Enter amount"
+                  value="{{ request.POST.amount|default:'' }}"
+                >
+                <div class="form-text">Enter the amount you want to pay</div>
+              </div>
+              
+              <!-- Product Name Field -->
+              <div class="form-group mb-4">
+                <label for="productName" class="form-label fw-bold">
+                  <i class="bi bi-box me-2"></i>Product Name
+                </label>
+                <input 
+                  type="text" 
+                  class="form-control form-control-lg" 
+                  id="productName" 
+                  name="productName" 
+                  required 
+                  maxlength="100" 
+                  placeholder="Enter product name"
+                  value="{{ request.POST.productName|default:'' }}"
+                >
+                <div class="form-text">Enter the name of the product or service</div>
+              </div>
+              
+              <!-- Transaction ID Field -->
+              <div class="form-group mb-4">
+                <label for="transactionId" class="form-label fw-bold">
+                  <i class="bi bi-hash me-2"></i>Transaction ID
+                </label>
+                <input 
+                  type="text" 
+                  class="form-control form-control-lg" 
+                  id="transactionId" 
+                  name="transactionId" 
+                  required 
+                  maxlength="50" 
+                  placeholder="Enter transaction ID"
+                  value="{{ request.POST.transactionId|default:'' }}"
+                >
+                <div class="form-text">Enter a unique transaction identifier</div>
+              </div>
+              
+              <!-- Payment Button -->
+              <div class="form-group mb-3">
+                <button type="submit" class="btn btn-purple btn-lg w-100">
+                  <i class="bi bi-wallet2 me-2"></i>Proceed to Khalti Payment
+                </button>
+              </div>
+            </form>
+          </div>
+          
+          <!-- Payment Info -->
+          <div class="card-footer bg-light p-4">
+            <div class="row">
+              <div class="col-md-6">
+                <h6 class="text-purple mb-2">
+                  <i class="bi bi-shield-check me-2"></i>Secure Payment
+                </h6>
+                <small class="text-muted">
+                  Your payment is protected with bank-grade security
+                </small>
+              </div>
+              <div class="col-md-6">
+                <h6 class="text-purple mb-2">
+                  <i class="bi bi-lightning me-2"></i>Fast Processing
+                </small>
+                <small class="text-muted">
+                  Lightning-fast transaction processing
+                </small>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Test Credentials -->
+        <div class="test-credentials-card mt-4 border rounded p-4 bg-warning bg-opacity-10">
+          <h6 class="text-warning mb-3">
+            <i class="bi bi-info-circle me-2"></i>Test Credentials
+          </h6>
+          <div class="row">
+            <div class="col-md-6">
+              <small class="text-muted">
+                <strong>Khalti ID:</strong> 9800000000-9800000005<br>
+                <strong>MPIN:</strong> 1111<br>
+                <strong>OTP:</strong> 987654<br>
+                <strong>Environment:</strong> Sandbox
+              </small>
+            </div>
+            <div class="col-md-6">
+              <small class="text-muted">
+                <strong>Test Environment:</strong><br>
+                • Use test secret key<br>
+                • Test transactions only<br>
+                • No real money involved<br>
+                • Sandbox API endpoints
+              </small>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Back to Payment Choice -->
+        <div class="text-center mt-4">
+          <a href="{% url 'payment_choice' %}" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left me-2"></i>Back to Payment Methods
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .khalti-payment-section {
+    background-color: #f8f9fa;
+    min-height: 100vh;
+  }
+
+  .payment-form-card {
+    background: white;
+    border: none !important;
+  }
+
+  .payment-form-card .card-header {
+    border-radius: 8px 8px 0 0 !important;
+  }
+
+  .form-control {
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+
+  .form-control:focus {
+    border-color: #6f42c1;
+    box-shadow: 0 0 0 0.2rem rgba(111, 66, 193, 0.25);
+  }
+
+  .form-label {
+    color: #495057;
+    font-size: 0.95rem;
+  }
+
+  .form-text {
+    font-size: 0.8rem;
+    color: #6c757d;
+  }
+
+  .btn-purple {
+    background-color: #6f42c1;
+    border-color: #6f42c1;
+    border-radius: 8px;
+    font-weight: 600;
+    padding: 12px 24px;
+    transition: all 0.3s ease;
+  }
+
+  .btn-purple:hover {
+    background-color: #5a32a3;
+    border-color: #5a32a3;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(111, 66, 193, 0.3);
+  }
+
+  .bg-purple {
+    background-color: #6f42c1 !important;
+  }
+
+  .text-purple {
+    color: #6f42c1 !important;
+  }
+
+  .test-credentials-card {
+    border-color: #ffc107 !important;
+  }
+
+  .test-credentials-card h6 {
+    font-weight: 600;
+  }
+
+  @media (max-width: 768px) {
+    .payment-form-card {
+      margin: 0 10px;
+    }
+    
+    .test-credentials-card .row > div {
+      margin-bottom: 1rem;
+    }
+  }
+</style>
+{% endblock body %}

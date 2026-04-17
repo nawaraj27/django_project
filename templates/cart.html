@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% block title %}Shopping Cart - LinGunGulili{% endblock title %}
+{% block content %}
+<style>
+  body { font-family: 'Inter', sans-serif; }
+</style>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          'primary-green': '#10b981',
+          'danger-red': '#ef4444',
+        }
+      }
+    }
+  }
+</script>
+
+<div class="p-4 flex justify-center items-start min-h-screen pt-10 bg-gray-100">
+  <div id="cart-container" class="bg-white shadow-2xl rounded-xl w-full max-w-sm overflow-hidden border border-gray-100">
+    <div class="p-5 border-b border-gray-100 flex justify-between items-center bg-gray-50">
+      <h2 class="text-xl font-bold text-gray-800">Shopping Cart</h2>
+      <span id="cart-count" class="bg-primary-green text-white text-sm font-semibold px-2 py-0.5 rounded-full">0</span>
+    </div>
+    <div id="cart-items-list" class="p-5 space-y-4 max-h-[60vh] overflow-y-auto">
+      <!-- Items will be injected here by JavaScript -->
+    </div>
+    <div class="p-5 border-t border-gray-100 bg-white">
+      <div class="flex justify-between items-center mb-4">
+        <span class="text-lg font-semibold text-gray-700">Total:</span>
+        <span id="cart-total" class="text-2xl font-bold text-primary-green">NPR 0.00</span>
+      </div>
+      <div class="space-y-3">
+        <a id="checkout-btn" href="{% url 'checkout' %}" class="w-full text-center py-3 bg-primary-green text-white font-semibold rounded-lg shadow-md hover:bg-emerald-600 transition duration-150 block">
+          Proceed to Checkout
+        </a>
+        <form id="clear-cart-form" action="{% url 'clear_cart' %}" method="POST" onsubmit="return confirm('Are you sure you want to clear your cart?');">
+          {% csrf_token %}
+          <button id="clear-cart-btn" type="submit" class="w-full py-3 bg-danger-red text-white font-semibold rounded-lg shadow-md hover:bg-red-600 transition duration-150">
+            Clear Cart
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const CURRENCY_SYMBOL = "NPR";
+  let cart = {};
+  // Load cart from localStorage
+  if (localStorage.getItem('cart')) {
+    cart = JSON.parse(localStorage.getItem('cart'));
+  }
+
+  const cartListElement = document.getElementById('cart-items-list');
+  const totalElement = document.getElementById('cart-total');
+  const countElement = document.getElementById('cart-count');
+  const checkoutButton = document.getElementById('checkout-btn');
+  const clearCartButton = document.getElementById('clear-cart-btn');
+
+  const formatPrice = (price) => {
+    price = parseFloat(price); // Ensure it's a number
+    if (isNaN(price)) return `${CURRENCY_SYMBOL} 0.00`;
+    return `${CURRENCY_SYMBOL} ${price.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`;
+  };
+
+  const renderCart = () => {
+    cartListElement.innerHTML = '';
+    let total = 0;
+    let itemCount = Object.keys(cart).length;
+
+    if (itemCount === 0) {
+      cartListElement.innerHTML = '<p class="text-center text-gray-500 py-10">Your cart is empty.</p>';
+    }
+
+    for (const id in cart) {
+      const item = cart[id];
+      const subtotal = item.quantity * parseFloat(item.price);
+      total += subtotal;
+
+      const itemDiv = document.createElement('div');
+      itemDiv.className = 'flex justify-between items-center border-b pb-4 last:border-b-0';
+      itemDiv.innerHTML = `
+        <div>
+          <p class="font-medium text-gray-900">${item.name}</p>
+          <p class="text-sm text-gray-500">Qty: ${item.quantity} &times; ${formatPrice(item.price)}</p>
+        </div>
+        <span class="text-base font-semibold text-blue-600 px-3 py-1 bg-blue-100 rounded-full">
+          ${formatPrice(subtotal)}
+        </span>
+      `;
+      cartListElement.appendChild(itemDiv);
+    }
+
+    totalElement.textContent = formatPrice(total);
+    countElement.textContent = itemCount;
+
+    const isDisabled = itemCount === 0;
+    checkoutButton.classList.toggle('opacity-50', isDisabled);
+    checkoutButton.style.pointerEvents = isDisabled ? 'none' : 'auto';
+    clearCartButton.disabled = isDisabled;
+    clearCartButton.classList.toggle('opacity-50', isDisabled);
+  };
+
+  // Initial render on page load
+  document.addEventListener('DOMContentLoaded', renderCart);
+
+  // Sync with backend clear signal
+  const cleared = new URLSearchParams(window.location.search).get('cleared');
+  if (cleared === '1') {
+    localStorage.removeItem('cart');
+    // Re-render to show empty cart
+    renderCart(); 
+  }
+</script>
+{% endblock content %}

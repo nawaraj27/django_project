@@ -1,10 +1,51 @@
 {% extends "base.html" %}
+{% block title %}About Us - LinGunGulili{% endblock title %}
+{% block content %}
+<style>
+    .gradient-bg {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+    .text-gradient {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+</style>
+<!-- Header Section -->
+<header class="gradient-bg text-white py-16">
+    <div class="container mx-auto px-4 text-center">
+        <h1 class="text-5xl md:text-6xl font-bold mb-6">About Us</h1>
+        <p class="text-xl md:text-2xl opacity-90 max-w-3xl mx-auto">
+            Discover the story behind LinGunGulili and our commitment to transforming your shopping experience
+        </p>
+    </div>
+</header>
 
-{% block title %}
-   
-{% endblock title %}
-{% block body %}
+<!-- About Page Main Content -->
+<main class="container mx-auto px-4 py-16">
+    <!-- Our Mission Section -->
+    <section class="mb-20">
+        <div class="max-w-4xl mx-auto">
+            <div class="bg-white rounded-2xl shadow-lg p-8 md:p-12 card-hover">
+              
+                <div class="prose prose-lg max-w-none text-gray-700 leading-relaxed">
+                    <p class="text-lg text-center leading-relaxed">
+                        At <strong class="text-gradient font-bold">LinGunGulili</strong>, our mission is to revolutionize the e-commerce landscape by providing an unparalleled shopping experience that combines cutting-edge technology with exceptional customer service. We strive to create a platform where customers can discover, explore, and purchase products with confidence, knowing that every interaction is backed by our commitment to quality, reliability, and innovation.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
 
+    <!-- Our Vision Section -->
+    <section  style="display:flex">
+        <p>
+            At [Your Website Name], our vision is to redefine the way people shop online by combining convenience, variety, and quality in one seamless platform. We aim to create a trusted space where customers can explore a wide range of products—from everyday essentials to unique finds—while enjoying a smooth and personalized shopping experience.
 
+Our mission is to empower shoppers with choice and confidence. By leveraging cutting-edge technology, intuitive design, and reliable customer support, we strive to make online shopping effortless, secure, and enjoyable for everyone. Whether you’re browsing for the latest trends, searching for specific items, or discovering new favorites, [Your Website Name] is committed to bringing the best products right to your fingertips.
 
-{% endblock body%}
+We believe that shopping should not only be functional but also inspiring, which is why we continually innovate to provide smarter search tools, tailored recommendations, and a community-driven approach that keeps our customers at the heart of everything we do.<p>
+    </section>
+</main>
+{% endblock content %}

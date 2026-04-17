@@ -1,57 +1,207 @@
 {% extends "base.html" %} 
-{% block title %}Signup{% endblock title %}
+{% block title %}Sign Up{% endblock title %}
+
 {% block content %}
+<style>
+  .auth-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  
+  .auth-card {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+  }
+  
+  .auth-card h2 {
+    color: #1976d2;
+    margin-bottom: 30px;
+    font-weight: 600;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+    text-align: left;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #333;
+    font-weight: 500;
+  }
+  
+  .form-control {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+  }
+  
+  .form-control:focus {
+    outline: none;
+    border-color: #1976d2;
+    box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1);
+  }
+  
+  .btn-signup {
+    width: 100%;
+    background: #1976d2;
+    color: white;
+    border: none;
+    padding: 14px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+  }
+  
+  .btn-signup:hover {
+    background: #1565c0;
+  }
+  
+  .auth-links {
+    margin-top: 20px;
+    color: #666;
+  }
+  
+  .auth-links a {
+    color: #1976d2;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  
+  .auth-links a:hover {
+    text-decoration: underline;
+  }
+  
+  .messages {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 20px;
+  }
+  
+  .messages li {
+    padding: 10px 15px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    font-size: 14px;
+  }
+  
+  .messages .success {
+    background: #e8f5e8;
+    color: #2e7d32;
+    border: 1px solid #c8e6c9;
+  }
+  
+  .messages .error {
+    background: #ffebee;
+    color: #c62828;
+    border: 1px solid #ffcdd2;
+  }
+  
+  .messages .warning {
+    background: #fff3e0;
+    color: #ef6c00;
+    border: 1px solid #ffcc02;
+  }
+  
+  .messages .info {
+    background: #e3f2fd;
+    color: #1976d2;
+    border: 1px solid #bbdefb;
+  }
+</style>
 
-<div class="card bg-light p-5">
-  {% if messages %}
-  <ul class="messages">
-    {% for message in messages %}
-      <li class="{{ message.tags }}">{{ message }}</li>
-    {% endfor %}
-  </ul>
-{% endif %}
-  <h2 class="text-dark">SignUp</h2>
-
-  <form action="/auth/signup/" method="post">
-    {% csrf_token %}
-
-    <div class="form-group">
-      <label for="email">Email</label>
-      <input
-        type="email"
-        class="form-control p-2"
-        id="email"
-        name="email"
-        required
-      />
+<div class="auth-container">
+  <div class="auth-card">
+    <h2>Create Account</h2>
+    
+    {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+        <li class="{{ message.tags }}">{{ message }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+    
+    <form action="/auth/signup/" method="post">
+      {% csrf_token %}
+      
+      <div class="form-group">
+        <label for="username">Username <span style="color: #888; font-weight:400;">(Must be unique)</span></label>
+        <input
+          type="text"
+          class="form-control"
+          id="username"
+          name="username"
+          placeholder="Choose a username"
+          minlength="3"
+          maxlength="150"
+          required
+        />
+        <small style="color: #888;">3-150 characters. Unique, no spaces.</small>
+      </div>
+      
+      <div class="form-group">
+        <label for="email">Email Address <span style="color: #888; font-weight:400;">(e.g. name@example.com)</span></label>
+        <input
+          type="email"
+          class="form-control"
+          id="email"
+          name="email"
+          placeholder="Enter your email"
+          required
+        />
+        <small style="color: #888;">Required. Must be a valid email address.</small>
+      </div>
+      
+      <div class="form-group">
+        <label for="pass1">Password <span style="color: #888; font-weight:400;">(Min 8 characters)</span></label>
+        <input
+          type="password"
+          class="form-control"
+          id="pass1"
+          name="pass1"
+          placeholder="Create a password"
+          minlength="8"
+          required
+        />
+        <small style="color: #888;">Passwords must be at least 8 characters.</small>
+      </div>
+      
+      <div class="form-group">
+        <label for="pass2">Confirm Password</label>
+        <input
+          type="password"
+          class="form-control"
+          id="pass2"
+          name="pass2"
+          placeholder="Confirm your password"
+          required
+        />
+        <small style="color: #888;">Re-enter your password.</small>
+      </div>
+      
+      <button type="submit" class="btn-signup">Create Account</button>
+    </form>
+    
+    <div class="auth-links">
+      <p>Already have an account? <a href="/auth/login/">Sign In</a></p>
     </div>
-
-    <div class="form-group">
-      <label for="pass1">Password</label>
-      <input
-        type="password"
-        class="form-control p-2"
-        id="pass1"
-        name="pass1"
-        required
-      />
-    </div>
-
-    <div class="form-group">
-      <label for="pass2">Confirm Password</label>
-      <input
-        type="password"
-        class="form-control p-2"
-        id="pass2"
-        name="pass2"
-        required
-      />
-    </div>
-
-    <button type="submit" class="btn btn-dark">Sign In</button>
-
-    <p>Already a user? <a href="/auth/login/">Login</a></p>
-  </form>
-
-  {% endblock content %}
+  </div>
 </div>
+{% endblock content %}

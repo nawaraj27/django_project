@@ -1,0 +1,231 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Choose Payment Method{% endblock title %}
+
+{% block content %}
+<div class="hero-content text-center">
+  <h1 class="display-4 fw-bold text-primary mb-4">Choose Your Payment Method</h1>
+  <p class="lead text-muted mb-4">Select your preferred payment gateway to complete your purchase</p>
+</div>
+{% endblock content %}
+
+{% block body %}
+<section class="payment-methods-section py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <!-- Payment Methods Cards -->
+        <div class="row g-4">
+          <!-- eSewa Payment Card -->
+          <div class="col-md-6">
+            <div class="payment-card h-100 border rounded shadow-sm">
+              <div class="payment-card-header text-center p-4 bg-success bg-opacity-10">
+                <div class="payment-icon mb-3">
+                  <i class="bi bi-credit-card-fill text-success" style="font-size: 3rem;"></i>
+                </div>
+                <h3 class="payment-title text-success">eSewa</h3>
+                <p class="payment-description text-muted mb-0">Nepal's most trusted digital wallet</p>
+              </div>
+              <div class="payment-card-body p-4">
+                <ul class="payment-features list-unstyled mb-4">
+                  <li class="mb-2">
+                    <i class="bi bi-check-circle-fill text-success me-2"></i>
+                    Instant payment processing
+                  </li>
+                  <li class="mb-2">
+                    <i class="bi bi-check-circle-fill text-success me-2"></i>
+                    Secure HMAC-SHA256 encryption
+                  </li>
+                  <li class="mb-2">
+                    <i class="bi bi-check-circle-fill text-success me-2"></i>
+                    Widely accepted across Nepal
+                  </li>
+                  <li class="mb-2">
+                    <i class="bi bi-check-circle-fill text-success me-2"></i>
+                    No additional charges
+                  </li>
+                </ul>
+                <div class="payment-action">
+                  <a href="{% url 'esewa_payment' %}" class="btn btn-success w-100 btn-lg">
+                    <i class="bi bi-credit-card me-2"></i>Pay with eSewa
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Khalti Payment Card -->
+          <div class="col-md-6">
+            <div class="payment-card h-100 border rounded shadow-sm">
+              <div class="payment-card-header text-center p-4 bg-purple bg-opacity-10">
+                <div class="payment-icon mb-3">
+                  <i class="bi bi-wallet2 text-purple" style="font-size: 3rem;"></i>
+                </div>
+                <h3 class="payment-title text-purple">Khalti</h3>
+                <p class="payment-description text-muted mb-0">Fast and secure digital payments</p>
+              </div>
+              <div class="payment-card-body p-4">
+                <ul class="payment-features list-unstyled mb-4">
+                  <li class="mb-2">
+                    <i class="bi bi-check-circle-fill text-purple me-2"></i>
+                    Lightning-fast transactions
+                  </li>
+                  <li class="mb-2">
+                    <i class="bi bi-check-circle-fill text-purple me-2"></i>
+                    Bank-grade security
+                  </li>
+                  <li class="mb-2">
+                    <i class="bi bi-check-circle-fill text-purple me-2"></i>
+                    Multiple payment options
+                  </li>
+                  <li class="mb-2">
+                    <i class="bi bi-check-circle-fill text-purple me-2"></i>
+                    24/7 customer support
+                  </li>
+                </ul>
+                <div class="payment-action">
+                  <a href="{% url 'khalti_payment' %}" class="btn btn-purple w-100 btn-lg">
+                    <i class="bi bi-wallet2 me-2"></i>Pay with Khalti
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Payment Information -->
+        <div class="row mt-5">
+          <div class="col-12">
+            <div class="payment-info-card border rounded p-4 bg-light">
+              <h4 class="text-center mb-3">
+                <i class="bi bi-info-circle me-2"></i>Payment Information
+              </h4>
+              <div class="row">
+                <div class="col-md-6">
+                  <h6 class="text-success">eSewa Test Credentials:</h6>
+                  <ul class="list-unstyled small">
+                    <li><strong>ID:</strong> 9806800001/2/3/4/5</li>
+                    <li><strong>Password:</strong> Nepal@123</li>
+                    <li><strong>MPIN:</strong> 1122</li>
+                    <li><strong>Token:</strong> 123456</li>
+                  </ul>
+                </div>
+                <div class="col-md-6">
+                  <h6 class="text-purple">Khalti Test Credentials:</h6>
+                  <ul class="list-unstyled small">
+                    <li><strong>ID:</strong> 9800000000-9800000005</li>
+                    <li><strong>MPIN:</strong> 1111</li>
+                    <li><strong>OTP:</strong> 987654</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="text-center mt-3">
+                <small class="text-muted">
+                  <i class="bi bi-shield-check me-1"></i>
+                  All payments are processed securely through certified payment gateways
+                </small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Back to Home -->
+        <div class="row mt-4">
+          <div class="col-12 text-center">
+            <a href="/" class="btn btn-outline-primary">
+              <i class="bi bi-arrow-left me-2"></i>Back to Home
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .payment-methods-section {
+    background-color: #f8f9fa;
+    min-height: 100vh;
+  }
+
+  .payment-card {
+    background: white;
+    transition: all 0.3s ease;
+    border: none !important;
+  }
+
+  .payment-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1) !important;
+  }
+
+  .payment-card-header {
+    border-bottom: 1px solid #e9ecef;
+  }
+
+  .payment-title {
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  .payment-description {
+    font-size: 0.9rem;
+  }
+
+  .payment-features li {
+    font-size: 0.9rem;
+    color: #6c757d;
+  }
+
+  .payment-action .btn {
+    border-radius: 8px;
+    font-weight: 600;
+    padding: 12px 24px;
+  }
+
+  .btn-purple {
+    background-color: #6f42c1;
+    border-color: #6f42c1;
+    color: white;
+  }
+
+  .btn-purple:hover {
+    background-color: #5a32a3;
+    border-color: #5a32a3;
+    color: white;
+  }
+
+  .bg-purple {
+    background-color: #6f42c1 !important;
+  }
+
+  .text-purple {
+    color: #6f42c1 !important;
+  }
+
+  .payment-info-card {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  }
+
+  .payment-info-card h6 {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+
+  .payment-info-card ul li {
+    margin-bottom: 0.25rem;
+    font-size: 0.85rem;
+  }
+
+  @media (max-width: 768px) {
+    .payment-card {
+      margin-bottom: 1rem;
+    }
+    
+    .payment-info-card .row > div {
+      margin-bottom: 1rem;
+    }
+  }
+</style>
+{% endblock body %}

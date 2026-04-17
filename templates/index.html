@@ -1,174 +1,188 @@
-{% extends "base.html" %}
-{% block title %}Home{% endblock title %}
-        {% block content %}
-<h1> welcome to LinGunGulili</h1>
-        {% endblock content %}
+{% extends 'base.html' %}
+{% block title %}Home - LinGunGulili{% endblock title %}
+
 {% block body %}
-    <section id="portfolio" class="portfolio section">
+{% load static %}
 
-      <!-- Section Title -->
-      <div class="container section-title" data-aos="fade-up">
-        <h2>Portfolio</h2>
-        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
-      </div><!-- End Section Title -->
+<!-- ======= Portfolio Section ======= -->
+<section id="portfolio" class="portfolio">
+  <div class="container">
+    {% for message in messages %}
+    <div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
+      <strong>{{message}}</strong>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
 
-      <div class="container-fluid">
+    <div class="section-title" style="margin-bottom:1rem;">
+      <h2 style="margin-bottom:0.5rem;">Welcome to Shop</h2>
+      <h3 style="margin-bottom:0;">Check our <span>Products</span></h3>
+    </div>
 
-        <div class="isotope-layout" data-default-filter="*" data-layout="masonry" data-sort="original-order">
+    <div class="d-flex align-items-center mb-2">
+      <input type="text" id="product-search" class="form-control me-2" placeholder="Search products..." style="width: 250px;">
+      <select id="category-filter" class="form-select me-2" style="width: 190px;"></select>
+      <select id="price-sort" class="form-select" style="width: 190px;">
+        <option value="">Sort by Price</option>
+        <option value="asc">Low to High</option>
+        <option value="desc">High to Low</option>
+      </select>
+    </div>
 
-          <ul class="portfolio-filters isotope-filters" data-aos="fade-up" data-aos-delay="100">
-            <li data-filter="*" class="filter-active">All</li>
-            <li data-filter=".filter-app">App</li>
-            <li data-filter=".filter-product">Product</li>
-            <li data-filter=".filter-branding">Branding</li>
-            <li data-filter=".filter-books">Books</li>
-          </ul><!-- End Portfolio Filters -->
+    {% for product, range, nSlides in allProds %}
+    <h3 class="my-2 text-center text-success bg-light" style="padding:0.5rem 0 0.25rem 0; margin-bottom:0.5rem;">
+      {{product.0.category}} Flashsale
+    </h3>
 
-          <div class="row g-0 isotope-container" data-aos="fade-up" data-aos-delay="200">
+    <div class="container">
+      <div class="row g-2">
+        {% for i in product %}
+        <div class="col-md-3 mt-2">
+          <img src="/media/{{i.image}}" class="card-img-top" alt="not found" height="200px" width="150px" />
+          <div class="card-body">
+            <h5 class="card-title mt-2" id="namepr{{i.id}}">{{i.product_name}}</h5>
+            <p class="card-text">{{i.desc|slice:"0:53"}}...</p>
+            <h6 class="card-title mb-3">
+              Price:<span id="pricepr{{i.id}}">{{i.price}}</span>
+            </h6>
+            <span id="divpr{{i.id}}" class="divpr">
+              <button id="pr{{i.id}}" class="btn btn-danger cartAddBtn btn-sm mt-0" data-pid="{{i.id}}">
+                AddToCart <i class="fa-solid fa-cart-shopping"></i>
+              </button>
+            </span>
 
-            <div class="col-xl-3 col-lg-4 col-md-6 portfolio-item isotope-item filter-app">
-              <div class="portfolio-content h-100">
-                <img src="static/assets
-/img/portfolio/app-1.jpg" class="img-fluid" alt="">
-                <div class="portfolio-info">
-                  <a href="static/assets
-/img/portfolio/app-1.jpg" data-gallery="portfolio-gallery-app" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                  <a href="portfolio-details.html" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a>
-                </div>
-              </div>
-            </div><!-- End Portfolio Item -->
+            <a href="/media/{{i.image}}">
+              <button class="btn btn-dark btn-sm cart"><i class="fa-solid fa-eye"></i></button>
+            </a>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+<!-- End Portfolio Section -->
 
-            <div class="col-xl-3 col-lg-4 col-md-6 portfolio-item isotope-item filter-product">
-              <div class="portfolio-content h-100">
-                <img src="static/assets
-/img/portfolio/product-1.jpg" class="img-fluid" alt="">
-                <div class="portfolio-info">
-                  <a href="static/assets
-/img/portfolio/product-1.jpg" data-gallery="portfolio-gallery-product" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                  <a href="portfolio-details.html" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a>
-                </div>
-              </div>
-            </div><!-- End Portfolio Item -->
+<script src="https://code.jquery.com/jquery-3.3.1.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
 
-            <div class="col-xl-3 col-lg-4 col-md-6 portfolio-item isotope-item filter-branding">
-              <div class="portfolio-content h-100">
-                <img src="static/assets
-/img/portfolio/branding-1.jpg" class="img-fluid" alt="">
-                <div class="portfolio-info">
-                  <a href="static/assets
-/img/portfolio/branding-1.jpg" data-gallery="portfolio-gallery-branding" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                  <a href="portfolio-details.html" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a>
-                </div>
-              </div>
-            </div><!-- End Portfolio Item -->
+<script>
+// ===== Cart functionality =====
+let cart = {};
+if (localStorage.getItem('cart')) {
+  cart = JSON.parse(localStorage.getItem('cart'));
+}
 
-            <div class="col-xl-3 col-lg-4 col-md-6 portfolio-item isotope-item filter-books">
-              <div class="portfolio-content h-100">
-                <img src="static/assets
-/img/portfolio/books-1.jpg" class="img-fluid" alt="">
-                <div class="portfolio-info">
-                  <a href="static/assets
-/img/portfolio/books-1.jpg" data-gallery="portfolio-gallery-book" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                  <a href="portfolio-details.html" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a>
-                </div>
-              </div>
-            </div><!-- End Portfolio Item -->
+function addToCart(productId, productName, productPrice) {
+  if (cart[productId]) {
+    cart[productId].quantity += 1;
+  } else {
+    cart[productId] = { name: productName, price: productPrice, quantity: 1 };
+  }
+  saveCart();
+  updateCartDisplay();
+  alert('Product added to cart!');
+}
 
-            <div class="col-xl-3 col-lg-4 col-md-6 portfolio-item isotope-item filter-app">
-              <div class="portfolio-content h-100">
-                <img src="static/assets
-/img/portfolio/app-2.jpg" class="img-fluid" alt="">
-                <div class="portfolio-info">
-                  <a href="static/assets
-/img/portfolio/app-2.jpg" data-gallery="portfolio-gallery-app" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                  <a href="portfolio-details.html" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a>
-                </div>
-              </div>
-            </div><!-- End Portfolio Item -->
+function saveCart() {
+  localStorage.setItem('cart', JSON.stringify(cart));
+}
 
-            <div class="col-xl-3 col-lg-4 col-md-6 portfolio-item isotope-item filter-product">
-              <div class="portfolio-content h-100">
-                <img src="static/assets
-/img/portfolio/product-2.jpg" class="img-fluid" alt="">
-                <div class="portfolio-info">
-                  <a href="static/assets
-/img/portfolio/product-2.jpg" data-gallery="portfolio-gallery-product" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                  <a href="portfolio-details.html" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a>
-                </div>
-              </div>
-            </div><!-- End Portfolio Item -->
+function updateCartDisplay() {
+  const cartBadge = document.getElementById('cart');
+  const cartCount = Object.values(cart).reduce((total, item) => total + item.quantity, 0);
+  if (cartBadge) cartBadge.textContent = cartCount;
+}
 
-            <div class="col-xl-3 col-lg-4 col-md-6 portfolio-item isotope-item filter-branding">
-              <div class="portfolio-content h-100">
-                <img src="static/assets
-/img/portfolio/branding-2.jpg" class="img-fluid" alt="">
-                <div class="portfolio-info">
-                  <a href="static/assets
-/img/portfolio/branding-2.jpg" data-gallery="portfolio-gallery-branding" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                  <a href="portfolio-details.html" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a>
-                </div>
-              </div>
-            </div><!-- End Portfolio Item -->
+document.addEventListener('DOMContentLoaded', function() {
+  updateCartDisplay();
+  document.querySelectorAll('.cartAddBtn').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      const productId = this.getAttribute('data-pid');
+      const productName = document.getElementById('namepr'+productId).textContent;
+      const productPrice = document.getElementById('pricepr'+productId).textContent;
+      addToCart(productId, productName, parseFloat(productPrice));
+    });
+  });
+});
 
-            <div class="col-xl-3 col-lg-4 col-md-6 portfolio-item isotope-item filter-books">
-              <div class="portfolio-content h-100">
-                <img src="static/assets
-/img/portfolio/books-2.jpg" class="img-fluid" alt="">
-                <div class="portfolio-info">
-                  <a href="static/assets
-/img/portfolio/books-2.jpg" data-gallery="portfolio-gallery-book" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                  <a href="portfolio-details.html" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a>
-                </div>
-              </div>
-            </div><!-- End Portfolio Item -->
+// ===== Search and Filter functionality =====
 
-            <div class="col-xl-3 col-lg-4 col-md-6 portfolio-item isotope-item filter-app">
-              <div class="portfolio-content h-100">
-                <img src="static/assets
-/img/portfolio/app-3.jpg" class="img-fluid" alt="">
-                <div class="portfolio-info">
-                  <a href="static/assets
-/img/portfolio/app-3.jpg" data-gallery="portfolio-gallery-app" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                  <a href="portfolio-details.html" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a>
-                </div>
-              </div>
-            </div><!-- End Portfolio Item -->
+// Collect all products
+const allProducts = [];
+document.querySelectorAll('.col-md-3.mt-2').forEach(card => {
+  const name = card.querySelector('h5.card-title').textContent.trim();
+  const desc = card.querySelector('p.card-text').textContent.trim();
+  const price = parseFloat(card.querySelector('h6.card-title span').textContent);
+  const catHeader = card.closest('.container').previousElementSibling;
+  const cat = catHeader ? catHeader.textContent.replace(' Flashsale','').trim() : '';
 
-            <div class="col-xl-3 col-lg-4 col-md-6 portfolio-item isotope-item filter-product">
-              <div class="portfolio-content h-100">
-                <img src="static/assets
-/img/portfolio/product-3.jpg" class="img-fluid" alt="">
-                <div class="portfolio-info">
-                  <a href="static/assets
-/img/portfolio/product-3.jpg" data-gallery="portfolio-gallery-product" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                  <a href="portfolio-details.html" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a>
-                </div>
-              </div>
-            </div><!-- End Portfolio Item -->
+  allProducts.push({card, name, desc, price, cat});
+});
 
-            <div class="col-xl-3 col-lg-4 col-md-6 portfolio-item isotope-item filter-branding">
-              <div class="portfolio-content h-100">
-                <img src="static/assets
-/img/portfolio/branding-3.jpg" class="img-fluid" alt="">
-                <div class="portfolio-info">
-                  <a href="static/assets
-/img/portfolio/branding-3.jpg" data-gallery="portfolio-gallery-branding" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                  <a href="portfolio-details.html" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a>
-                </div>
-              </div>
-            </div><!-- End Portfolio Item -->
+// Populate category dropdown
+const catSet = new Set(allProducts.map(p => p.cat));
+const catFilter = document.getElementById('category-filter');
+catFilter.innerHTML = '<option value="">All Categories</option>' +
+  Array.from(catSet).map(cat => `<option value="${cat}">${cat}</option>`).join('');
 
-            <div class="col-xl-3 col-lg-4 col-md-6 portfolio-item isotope-item filter-books">
-              <div class="portfolio-content h-100">
-                <img src="static/assets
-/img/portfolio/books-3.jpg" class="img-fluid" alt="">
-                <div class="portfolio-info">
-                  <a href="static/assets
-/img/portfolio/books-3.jpg" data-gallery="portfolio-gallery-book" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                  <a href="portfolio-details.html" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a>
-                </div>
-              </div>
-            </div><!-- End Portfolio Item -->
+// Update product grid and hide headers with no visible products
+function updateProductGrid() {
+  const q = document.getElementById('product-search').value.toLowerCase();
+  const catSel = catFilter.value;
+  const priceSort = document.getElementById('price-sort').value;
 
-          </div><!-- End Portfolio Container -->
+  // Group products by category
+  const categories = {};
+  allProducts.forEach(p => {
+    if (!categories[p.cat]) categories[p.cat] = [];
+    categories[p.cat].push(p);
+  });
+
+  Object.keys(categories).forEach(cat => {
+    const products = categories[cat];
+    let filtered = products.filter(p =>
+      (q === '' || p.name.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q)) &&
+      (catSel === '' || p.cat === catSel)
+    );
+
+    if (priceSort) {
+      filtered.sort((a, b) => priceSort === 'asc' ? a.price - b.price : b.price - a.price);
+    }
+
+    // Hide all first
+    products.forEach(p => p.card.style.display = 'none');
+
+    // Show filtered products
+    filtered.forEach(p => p.card.style.display = '');
+
+    // Hide/show category header
+    const catHeader = products[0].card.closest('.container').previousElementSibling;
+    if (catHeader) catHeader.style.display = filtered.length === 0 ? 'none' : '';
+  });
+
+  // Show "No products found" if globally nothing matches
+  const container = document.querySelector('#portfolio .container');
+  let noResults = document.getElementById('no-results');
+  if (!noResults) {
+    noResults = document.createElement('p');
+    noResults.id = 'no-results';
+    noResults.className = 'text-center text-muted mt-3';
+    container.prepend(noResults);
+  }
+  const totalVisible = allProducts.filter(p => p.card.style.display !== 'none').length;
+  noResults.textContent = totalVisible === 0 ? 'No products found.' : '';
+}
+
+// Event listeners
+['product-search','category-filter','price-sort'].forEach(id =>
+  document.getElementById(id).addEventListener('input', updateProductGrid)
+);
+
+</script>
+
 {% endblock body %}
+;k

@@ -1,0 +1,198 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}eSewa Payment Processing{% endblock title %}
+
+{% block content %}
+<div class="hero-content text-center">
+  <h1 class="display-4 fw-bold text-success mb-4">eSewa Payment</h1>
+  <p class="lead text-muted mb-4">Redirecting to eSewa payment gateway...</p>
+</div>
+{% endblock content %}
+
+{% block body %}
+<section class="esewa-processing-section py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-6 col-md-8">
+        <div class="processing-card border rounded shadow-lg text-center">
+          <div class="card-body p-5">
+            <!-- Loading Animation -->
+            <div class="loading-animation mb-4">
+              <div class="spinner-border text-success" role="status" style="width: 3rem; height: 3rem;">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            </div>
+            
+            <h3 class="text-success mb-3">Processing Payment...</h3>
+            <p class="text-muted mb-4">Please wait while we redirect you to eSewa payment gateway</p>
+            
+            <!-- Payment Details -->
+            <div class="payment-details bg-light rounded p-4 mb-4">
+              <h6 class="text-dark mb-3">Payment Details</h6>
+              <div class="row text-start">
+                <div class="col-6">
+                  <small class="text-muted">Amount:</small><br>
+                  <strong class="text-success">NPR {{ amount }}</strong>
+                </div>
+                <div class="col-6">
+                  <small class="text-muted">Transaction ID:</small><br>
+                  <strong>{{ esewa_config.transaction_uuid }}</strong>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Auto-submit Form -->
+            <form id="esewaForm" method="POST" action="https://rc-epay.esewa.com.np/api/epay/main/v2/form">
+              <input type="hidden" name="amount" value="{{ amount }}">
+              <input type="hidden" name="tax_amount" value="{{ esewa_config.tax_amount }}">
+              <input type="hidden" name="total_amount" value="{{ esewa_config.total_amount }}">
+              <input type="hidden" name="transaction_uuid" value="{{ esewa_config.transaction_uuid }}">
+              <input type="hidden" name="product_code" value="{{ esewa_config.product_code }}">
+              <input type="hidden" name="product_service_charge" value="{{ esewa_config.product_service_charge }}">
+              <input type="hidden" name="product_delivery_charge" value="{{ esewa_config.product_delivery_charge }}">
+              <input type="hidden" name="success_url" value="{{ esewa_config.success_url }}">
+              <input type="hidden" name="failure_url" value="{{ esewa_config.failure_url }}">
+              <input type="hidden" name="signed_field_names" value="{{ esewa_config.signed_field_names }}">
+              <input type="hidden" name="signature" value="{{ signature }}">
+              
+              <button type="submit" class="btn btn-success btn-lg" id="submitBtn">
+                <i class="bi bi-credit-card me-2"></i>Click here if not redirected automatically
+              </button>
+            </form>
+            
+            <!-- Manual Redirect Info -->
+            <div class="mt-4">
+              <small class="text-muted">
+                <i class="bi bi-info-circle me-1"></i>
+                If you are not redirected automatically, click the button above
+              </small>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Payment Security Info -->
+        <div class="security-info-card mt-4 border rounded p-4 bg-success bg-opacity-10">
+          <div class="row">
+            <div class="col-md-4 text-center">
+              <i class="bi bi-shield-check text-success" style="font-size: 2rem;"></i>
+              <h6 class="text-success mt-2">Secure</h6>
+              <small class="text-muted">HMAC-SHA256 encryption</small>
+            </div>
+            <div class="col-md-4 text-center">
+              <i class="bi bi-clock text-success" style="font-size: 2rem;"></i>
+              <h6 class="text-success mt-2">Fast</h6>
+              <small class="text-muted">Instant processing</small>
+            </div>
+            <div class="col-md-4 text-center">
+              <i class="bi bi-check-circle text-success" style="font-size: 2rem;"></i>
+              <h6 class="text-success mt-2">Verified</h6>
+              <small class="text-muted">eSewa certified</small>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Back to Payment Choice -->
+        <div class="text-center mt-4">
+          <a href="{% url 'payment_choice' %}" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left me-2"></i>Back to Payment Methods
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Auto-submit form after 3 seconds
+  setTimeout(function() {
+    document.getElementById('esewaForm').submit();
+  }, 3000);
+  
+  // Show loading state
+  document.addEventListener('DOMContentLoaded', function() {
+    const submitBtn = document.getElementById('submitBtn');
+    const form = document.getElementById('esewaForm');
+    
+    form.addEventListener('submit', function() {
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Redirecting...';
+    });
+  });
+</script>
+
+<style>
+  .esewa-processing-section {
+    background-color: #f8f9fa;
+    min-height: 100vh;
+  }
+
+  .processing-card {
+    background: white;
+    border: none !important;
+  }
+
+  .loading-animation {
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+  }
+
+  .payment-details {
+    border: 1px solid #dee2e6;
+  }
+
+  .payment-details h6 {
+    font-weight: 600;
+    color: #495057;
+  }
+
+  .btn-success {
+    background-color: #198754;
+    border-color: #198754;
+    border-radius: 8px;
+    font-weight: 600;
+    padding: 12px 30px;
+    transition: all 0.3s ease;
+  }
+
+  .btn-success:hover:not(:disabled) {
+    background-color: #157347;
+    border-color: #157347;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(25, 135, 84, 0.3);
+  }
+
+  .btn-success:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+
+  .security-info-card {
+    border-color: #198754 !important;
+  }
+
+  .security-info-card h6 {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+
+  .security-info-card i {
+    margin-bottom: 0.5rem;
+  }
+
+  @media (max-width: 768px) {
+    .processing-card {
+      margin: 0 10px;
+    }
+    
+    .security-info-card .row > div {
+      margin-bottom: 1rem;
+    }
+  }
+</style>
+{% endblock body %}

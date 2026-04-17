@@ -1,12 +1,49 @@
 {% extends "base.html" %}
 
 {% block title %}
-    Contact Us
+    Contact Us - LinGunGulili
 {% endblock title %}
-{% block body %}
 
+{# IMPORTANT: Place your entire contact form and its containing HTML within this 'content' block #}
+{% block content %}
+<h1 class="text-center mt-5 mb-4" id="contact">Contact Us</h1>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form method="POST">
+                {% csrf_token %}
 
-    <h1>Contact Us</h1>
-               
-                
-{% endblock body%}
+                <div class="form-group mb-3">
+                    <label for="name" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" required>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="email" class="form-label">Email address</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com" required>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="phone" class="form-label">Phone</label> {# Added phone field based on your views.py #}
+                    <input type="text" class="form-control" id="phone" name="phone" placeholder="Enter your phone number">
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="subject" class="form-label">Subject</label> {# This was 'message' in your initial contact.html, but 'subject' in forms usually #}
+                    <input type="text" class="form-control" id="subject" name="subject" placeholder="Enter subject" required>
+                </div>
+
+                <div class="form-group mb-4">
+                    <label for="message" class="form-label">Message</label> {# This was 'desc' in your views.py, but 'message' is more common for the main text area #}
+                    <textarea class="form-control" id="message" name="message" rows="5" placeholder="Enter your message" required></textarea>
+                </div>
+
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary btn-lg">Send Message</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
